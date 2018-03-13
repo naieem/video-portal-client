@@ -11,8 +11,13 @@ import * as _ from 'lodash';
 })
 export class VideoListComponent implements OnInit {
   videos: Videos[];
-  pageNumber = 0;
-  constructor(private dataBearer: VideoServiceService) {}
+  pageNumber: number;
+  loading: boolean;
+  constructor(private dataBearer: VideoServiceService) {
+    this.pageNumber = 0;
+    this.videos = [];
+    this.loading = false;
+  }
 
   ngOnInit() {
     this.getAllVideos(this.pageNumber);
@@ -34,10 +39,14 @@ export class VideoListComponent implements OnInit {
    * @param array of videos
    */
   denormalizeVideoUrl(videos) {
+    const tempV: Videos[] = [];
+    // tempV = _.cloneDeep(this.videos);
     _.forEach(videos, function(item) {
       item.url = 'assets/' + item.url;
+      tempV.push(item);
     });
-    this.videos = videos;
+    this.loading = false;
+    this.videos = this.videos.concat(tempV);
   }
 
   // ======================================
@@ -46,10 +55,10 @@ export class VideoListComponent implements OnInit {
   onScroll (event) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       console.log('On Scroll Down');
+      this.loading = true;
       this.pageNumber++;
       this.getAllVideos(this.pageNumber);
     }
   }
-
 
 }

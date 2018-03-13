@@ -5,16 +5,22 @@ import { SharedService } from '../shared/shared.service'; // importing shared se
 export class VideoServiceService {
   videosUrl = 'http://localhost:3000/video';
   sessionId: string;
-  pageLimit = 5;
+  pageLimit: number;
+  skip: number;
   constructor(private http: HttpClient, private sharedInformation: SharedService) {
     this.sessionId = sharedInformation.getSessionId();
+    this.pageLimit = 5;
+    this.skip = 0;
   }
 
   getAllVideos(pagenumber) {
     if (pagenumber !== 0) {
-      this.pageLimit = (pagenumber + 1) * this.pageLimit;
+      this.skip = pagenumber * this.pageLimit;
+    } else {
+      this.skip = pagenumber;
     }
-    const url = this.videosUrl + 's?sessionId=' + this.sessionId + '&skip=0&limit=' + this.pageLimit;
+    const url = this.videosUrl + 's?sessionId=' + this.sessionId + '&skip=' + this.skip + '&limit=' + this.pageLimit;
+    this.pageLimit = 5;
     return this.http.get(url);
   }
 

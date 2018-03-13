@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-app-login,
 app-video-list {
     width: 100%;
+}
+
+app-login {
+    width: 50%;
+    margin: 0 auto;
 }

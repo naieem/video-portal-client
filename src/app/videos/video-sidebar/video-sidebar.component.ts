@@ -15,7 +15,7 @@ export class VideoSidebarComponent implements OnInit {
 
   gotoDetails(itemId) {
     // window.location.assign('/videos/details/' + itemId);
-    this.router.navigate(['/videos/details/', { videoId: itemId }]);
+    // this.router.navigate(['/videos/details/', { videoId: itemId }]);
   }
 
 }

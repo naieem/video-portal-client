@@ -14,8 +14,12 @@ import { Videos } from '../video-model';
 export class VideoDetailsComponent implements OnInit {
   video: Videos; // for storing single videos
   videos: Videos[]; // for storing all videos
+  pagenumber = 0;
+  hasData: boolean;
   constructor( private route: ActivatedRoute,
     private router: Router, private dataBearer: VideoServiceService) {
+      this.hasData = false;
+      this.video = null;
       // ======================================
       // OnRouteChange information update
       // ======================================
@@ -25,6 +29,7 @@ export class VideoDetailsComponent implements OnInit {
   // OnRouteChange information update
   // ======================================
   onRouteChangeUpdate() {
+    this.hasData = false;
     this.route.url.subscribe(url => {
       this.getsingleVideo(url[1].path);
     });
@@ -45,6 +50,7 @@ export class VideoDetailsComponent implements OnInit {
     this.dataBearer.getSingleVideo(itemid).subscribe((result: any) => {
       result.data.url = 'assets/' + result.data.url;
       this.video = result.data;
+      this.hasData = true;
       this.getallVideos();
     });
   }
@@ -53,7 +59,7 @@ export class VideoDetailsComponent implements OnInit {
   // Getting all videos for sidebar
   // ======================================
   getallVideos() {
-    this.dataBearer.getAllVideos()
+    this.dataBearer.getAllVideos(this.pagenumber)
     .subscribe((result: any) => {
       console.log(result);
       // ----------- sending for adding assets folders url with the file  ------------//
@@ -70,6 +76,14 @@ export class VideoDetailsComponent implements OnInit {
       item.url = 'assets/' + item.url;
     });
     this.videos = videos;
+  }
+
+  // ======================================
+  // page redirection function
+  // ======================================
+  gotoListPage() {
+    // window.location.assign('/videos');
+    this.router.navigate(['/videos']);
   }
 
 }

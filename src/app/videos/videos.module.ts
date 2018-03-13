@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll'; // infinite scroll library
 import { VideoServiceService } from './video-service.service';
 // ======================================
 // getting routing and components
@@ -12,7 +11,6 @@ import { VideoSidebarComponent } from './video-sidebar/video-sidebar.component';
   imports: [
     CommonModule,
     HttpClientModule,
-    InfiniteScrollModule,
     VideosRoutingModule
   ],
   declarations: [ VideoRouteComponents, VideoSidebarComponent],

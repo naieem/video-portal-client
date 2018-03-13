@@ -10,6 +10,9 @@
                   </video>
             <a href="#" class="btn btn-primary mt-5" [routerLink]="['./details/', video._id]">See details</a>
         </div>
-        <!-- <img class="card-img-bottom" src="img_avatar6.png" alt="Card image" style="width:100%"> -->
+        <!-- <img class="card-img-bottom" src="assets/Images/download.png" alt="Card image" style="width:100%"> -->
+    </div>
+    <div *ngIf="loading">
+        Loading
     </div>
 </div>
