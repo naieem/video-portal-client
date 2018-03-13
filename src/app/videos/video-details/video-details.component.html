@@ -1,0 +1,21 @@
+<div class="pt-4 pb-5">
+    <div class="mx-auto bg-info p-3 mb-3">
+        <h1>Video Details</h1>
+    </div>
+    <app-video-sidebar [videos]="videos"></app-video-sidebar>
+
+    <div class="col-md-8 float-left">
+        <div class="card mt-3" *ngIf="video">
+            <div class="card-body">
+                <h4 class="card-title">{{video.name}}</h4>
+                <p class="card-text">{{video.description}}</p>
+                <video class="w-100" controls>
+                    <source src="{{video.url}}" type="video/mp4">
+                    Your browser does not support HTML5 video.
+                  </video>
+                <a href="#" class="btn btn-info float-left mt-3" [routerLink]="['/videos']">Back to list</a>
+            </div>
+            <!-- <img class="card-img-bottom" src="img_avatar6.png" alt="Card image" style="width:100%"> -->
+        </div>
+    </div>
+</div>
