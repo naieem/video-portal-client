@@ -23,18 +23,11 @@ export class VideoDetailsComponent implements OnInit {
       // ======================================
       // OnRouteChange information update
       // ======================================
-      this.onRouteChangeUpdate();
+      this.route.url.subscribe(url => {
+        this.hasData = false;
+        this.getsingleVideo(url[1].path);
+      });
     }
-  // ======================================
-  // OnRouteChange information update
-  // ======================================
-  onRouteChangeUpdate() {
-    this.hasData = false;
-    this.route.url.subscribe(url => {
-      this.getsingleVideo(url[1].path);
-    });
-  }
-
   // ======================================
   // Init function
   // ======================================
