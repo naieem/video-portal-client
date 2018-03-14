@@ -29,8 +29,7 @@ export class VideoListComponent implements OnInit {
   getAllVideos(pageNumber) {
     this.dataBearer.getAllVideos(pageNumber)
     .subscribe((result: any) => {
-      console.log(result);
-      // ----------- sending for adding assets folders url with the file  ------------//
+      // sending for adding assets folders url with the file
       this.denormalizeVideoUrl(result.data);
     });
   }
@@ -40,7 +39,6 @@ export class VideoListComponent implements OnInit {
    */
   denormalizeVideoUrl(videos) {
     const tempV: Videos[] = [];
-    // tempV = _.cloneDeep(this.videos);
     _.forEach(videos, function(item) {
       item.url = 'assets/' + item.url;
       tempV.push(item);

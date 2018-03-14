@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url: string = state.url;
-
     return this.checkLogin(url);
   }
 
@@ -25,36 +24,48 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   canLoad(route: Route): boolean {
-    const url = `/${route.path}`;
-
-    return this.checkLogin(url);
+    // const url = `/${route.path}`;
+    // console.log(window.location.pathname);
+    return this.checkLogin(window.location.pathname);
   }
 
+  // ======================================
+  // checking user logged in status
+  // ======================================
   checkLogin(url: string): boolean {
-    if (this.authService.sessionId) { return true; }
+    if (this.authService.sessionId) {
+      this.broadCastUserLoggedInfo(true);
+      return true;
+    } else {
+      if (this.authService.token) {
+        setTimeout(() => {
+          this.authService.verifyAuthenticationData(this.authService.token).subscribe((result: any) => {
+            if (result && result.status === 200 && result.data) {
+              this.broadCastUserLoggedInfo(false);
+               this.router.navigate([url]);
+              return true;
+            } else {
+              this.broadCastUserLoggedInfo(false);
+              // Store the attempted URL for redirecting
+              this.authService.redirectUrl = url;
+              // Navigate to the login page with extras
+              this.router.navigate(['/login']);
+              return false;
+            }
+          });
+        }, 500);
+      } else {
+        this.broadCastUserLoggedInfo(false);
+        this.router.navigate(['/login']);
+      }
+    }
+  }
 
-    // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
-
-    // // Create a dummy session id
-    // const sessionId = 123456789;
-
-    // // Set our navigation extras object
-    // // that contains our global query params and fragment
-    // const navigationExtras: NavigationExtras = {
-    //   queryParams: { 'session_id': sessionId },
-    //   fragment: 'anchor'
-    // };
-
-    // Navigate to the login page with extras
-    this.router.navigate(['/login']);
-    return false;
+  // ======================================
+  // Broadcasting userlogged in info
+  // ======================================
+  broadCastUserLoggedInfo(status: boolean) {
+    this.authService.setLoggedInUserInformation(status);
   }
 }
 
-
-/*
-Copyright 2017-2018 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

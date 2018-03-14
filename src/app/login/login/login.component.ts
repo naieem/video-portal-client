@@ -21,6 +21,9 @@ export class LoginComponent implements OnChanges, OnInit {
   }
   ngOnChanges() {
   }
+  // ==============================================================
+  // function to call when submit button clicked in login form
+  // ==============================================================
   onSubmit() {
     const loginModel = this.loginForm.value; // getting login model from form data
     this.dataBearer.login(loginModel)
@@ -30,6 +33,9 @@ export class LoginComponent implements OnChanges, OnInit {
       this.router.navigate(['/videos']);
     });
   }
+  // ======================================
+  // Setting value of the login form
+  // ======================================
   initLoginForm() {
     this.loginForm = this.fb.group({
       username: 'ali',
